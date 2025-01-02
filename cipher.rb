@@ -4,7 +4,7 @@ word = gets.chomp
 puts "Now enter a number to shift your letters by: "
 number = gets.chomp.to_i
 
-def wrap_26(num)
+def wrap_26(num) #allows numbers exceeding 26 to 'wrap'
   if num > 26
     loop do
       num -= 26
@@ -30,11 +30,9 @@ def caesar_cipher(str,num)
     puts "Invalid Entry"
     return
   end
-
   caesared_word = str.split("").map{|letter| letter == " " ? " " : letter == letter.upcase ? 
   alphabet[wrap_26(alphabet.index(letter.downcase) + num)].upcase : 
   alphabet[wrap_26(alphabet.index(letter.downcase) + num)]}.join("")
-
   puts "Output: #{caesared_word}"
 end
 
