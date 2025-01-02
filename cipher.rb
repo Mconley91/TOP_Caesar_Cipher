@@ -17,17 +17,21 @@ def wrap_26(num)
 end
 
 def check_str(str,alphabet)
-  str.split("").all?{|letter| alphabet.include?(letter)} ? true : false
+  str.split("").all?{|letter| alphabet.include?(letter.downcase) || letter == " "} ? true : false
+end
+
+def check_num(num)
+  num != 0
 end
 
 def caesar_cipher(str,num)
   alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-  if !check_str(str,alphabet)
+  if (!check_str(str,alphabet) || !check_num(num))
     puts "Invalid Entry"
     return
   end
 
-  caesared_word = str.split("").map{|letter| letter == letter.upcase ? 
+  caesared_word = str.split("").map{|letter| letter == " " ? " " : letter == letter.upcase ? 
   alphabet[wrap_26(alphabet.index(letter.downcase) + num)].upcase : 
   alphabet[wrap_26(alphabet.index(letter.downcase) + num)]}.join("")
 
