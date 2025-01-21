@@ -1,40 +1,47 @@
+# frozen_string_literal: true
 
-puts "Enter a word to be encrypted: " 
+puts 'Enter a word to be encrypted: '
 word = gets.chomp
-puts "Now enter a number to shift your letters by: "
+puts 'Now enter a number to shift your letters by: '
 number = gets.chomp.to_i
-
-def wrap_26(num) #allows numbers exceeding 26 to 'wrap'
+# allows numbers exceeding 26 to 'wrap'
+def wrap26(num)
   if num > 26
     loop do
       num -= 26
-      if num - 26 < 0
-        return num
-      end
+      return num if (num - 26).negative?
     end
   end
-  return num
+  num
 end
 
-def check_str(str,alphabet)
-  str.split("").all?{|letter| alphabet.include?(letter.downcase) || letter == " " || letter == "!"} ? true : false
+def check_str(str, alphabet)
+  str.chars.all? { |letter| alphabet.include?(letter.downcase) || letter == ' ' || letter == '!' } ? true : false
 end
 
 def check_num(num)
   num != 0
 end
 
-def caesar_cipher(str,num)
-  alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-  if (!check_str(str,alphabet) || !check_num(num))
-    puts "Invalid Entry"
+# rubocop: disable Metrics/AbcSize
+def caesar_cipher(str, num)
+  alphabet = %w[a b c d e f g h i j k l m n o p q r s t u
+                v w x y z]
+  if !check_str(str, alphabet) || !check_num(num)
+    puts 'Invalid Entry'
     return
   end
-  caesared_word = str.split("").map{|letter| letter == " " || letter == "!" ? letter : 
-  letter == letter.upcase ? 
-  alphabet[wrap_26(alphabet.index(letter.downcase) + num)].upcase : 
-  alphabet[wrap_26(alphabet.index(letter.downcase) + num)]}.join("")
+  caesared_word = str.chars.map do |letter|
+    if [' ', '!'].include?(letter)
+      letter
+    elsif letter == letter.upcase
+      alphabet[wrap26(alphabet.index(letter.downcase) + num)].upcase
+    else
+      alphabet[wrap26(alphabet.index(letter.downcase) + num)]
+    end
+  end.join
   puts "Output: #{caesared_word}"
 end
+# rubocop: enable Metrics/AbcSize
 
-caesar_cipher(word,number)
+caesar_cipher(word, number)
