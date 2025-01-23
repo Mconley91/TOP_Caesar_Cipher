@@ -24,6 +24,7 @@ def check_num(num)
 end
 
 # rubocop: disable Metrics/AbcSize
+# rubocop: disable Metrics/MethodLength
 def caesar_cipher(str, num)
   alphabet = %w[a b c d e f g h i j k l m n o p q r s t u
                 v w x y z]
@@ -32,8 +33,10 @@ def caesar_cipher(str, num)
     return
   end
   caesared_word = str.chars.map do |letter|
+    # rubocop: disable Performance/CollectionLiteralInLoop
     if [' ', '!'].include?(letter)
       letter
+      # rubocop: enable Performance/CollectionLiteralInLoop
     elsif letter == letter.upcase
       alphabet[wrap26(alphabet.index(letter.downcase) + num)].upcase
     else
@@ -42,6 +45,7 @@ def caesar_cipher(str, num)
   end.join
   puts "Output: #{caesared_word}"
 end
+# rubocop: enable Metrics/MethodLength
 # rubocop: enable Metrics/AbcSize
 
 caesar_cipher(word, number)
