@@ -33,7 +33,6 @@ def caesar_cipher(str, num)
     return
   end
   caesared_word = str.chars.map do |letter|
-    # rubocop: disable Performance/CollectionLiteralInLoop
     if [' ', '!'].include?(letter)
       letter
       # rubocop: enable Performance/CollectionLiteralInLoop
